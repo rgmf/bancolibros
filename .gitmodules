@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:rgmf/banco_libros_frontend.git
+[submodule "backend"]
+	path = backend
+	url = git@github.com:rgmf/banco_libros_backend.git
