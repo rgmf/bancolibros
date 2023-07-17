@@ -23,6 +23,17 @@ services:
     depends_on:
       - bl-mariadb
 
+  bl-supervisor:
+    build:
+      context: ./backend/
+      dockerfile: docker/supervisor/Dockerfile
+    volumes:
+      - ./backend:/var/www
+    networks:
+      - bl-network
+    depends_on:
+      - bl-app
+
   bl-mariadb:
     image: mariadb
     env_file:
@@ -39,6 +50,8 @@ services:
 
   bl-mariadb-test:
     image: mariadb
+    env_file:
+      - ./backend/.env
     environment:
       MARIADB_ROOT_PASSWORD: "${DB_PASSWORD}"
       MARIADB_DATABASE: "${DB_DATABASE}"
