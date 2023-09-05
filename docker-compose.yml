@@ -37,7 +37,7 @@ services:
   bl-mariadb:
     image: mariadb
     env_file:
-      - ./backend/.env
+      - .env
     environment:
       MARIADB_ROOT_PASSWORD: "${DB_PASSWORD}"
       MARIADB_DATABASE: "${DB_DATABASE}"
@@ -51,12 +51,12 @@ services:
   bl-mariadb-test:
     image: mariadb
     env_file:
-      - ./backend/.env
+      - .env
     environment:
-      MARIADB_ROOT_PASSWORD: "${DB_PASSWORD}"
-      MARIADB_DATABASE: "${DB_DATABASE}"
-      MARIADB_USER: "${DB_USERNAME}"
-      MARIADB_PASSWORD: "${DB_PASSWORD}"
+      MARIADB_ROOT_PASSWORD: "${DB_TEST_PASSWORD}"
+      MARIADB_DATABASE: "${DB_TEST_DATABASE}"
+      MARIADB_USER: "${DB_TEST_USERNAME}"
+      MARIADB_PASSWORD: "${DB_TEST_PASSWORD}"
     networks:
       - bl-network
     ports:
