@@ -74,7 +74,7 @@ En principio, para exportar/importar la base de datos bastaría con copiar la ca
 
 La solución que encontré es la siguiente:
 
-1. Copio y pego la carpeta de datos de MariaDB indicada arriba.
+1. Copio y pego la carpeta de datos de MariaDB indicada arriba (fija los permisos, en mi caso hacía: `sudo chown -R 999:adm <carpeta de mariadb data>`).
 2. Levanto los contenedores.
 3. Uso un contenedor de `Adminer` para acceder a la base de datos (servidor: bl-mariadb; usuario: bancolibros; password: bancolibros; base de datos: bancolibros). Dicho contenedor lo añado en el `docker-compose.yml`:
 
@@ -93,6 +93,42 @@ adminer:
 6. Ejecuto el `docker compose exec bl-app php artisan migrate:fresh` para partir de la base de datos vacía.
 7. Entro de nuevo al `Adminer`.
 8. Importo el back `.sql`.
+
+## Crear migración y ejecutarla
+
+Por ejemplo, imagina que quieres crear una migración para crear dos campos nuevos en la tabla `lendings`. Primero hay que crear el fichero de migración:
+
+```shell
+$ docker compose exec bl-app php artisan make:migration add_comments_lendings_table --table=lendings
+```
+
+Se añade el código correspondiente en la nueva migración creada en la carpeta `database/migrations`:
+
+```php
+public function up(): void
+{
+    Schema::table('lendings', function (Blueprint $table) {
+        $table->text('lending_comment')->nullable();
+       $table->text('returned_comment')->nullable();
+    });
+}
+
+public function down(): void
+{
+    Schema::table('lendings', function (Blueprint $table) {
+        $table->dropColumn('lending_comment');
+        $table->dropColumn('returned_comment');
+    });
+}
+```
+
+Una vez creada la migración se puede ejecutar para hacer los cambios en la base de datos:
+
+```shell
+$ docker compose exec bl-app php artisan migrate
+```
+
+> Todos estos comandos se ejecutan en el contenedor, de ahí que los comandos `php artisan` se hagan desde `docker compose`.
 
 ## Ver/Generar logs
 Si quieres "escribir" logs en el sistema usa el siguiente `Facade` de Laravel:
