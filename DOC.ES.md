@@ -175,7 +175,8 @@ En el servidor de producción hay que clonar el código y seguir estos pasos:
 2. Desde el proyecto raíz: `git pull origin main`
 3. Desde cada uno de los módulos (`backend` y `frontend`): `git pull origin main`
 4. Arranca los contenedores: `docker compose up -d`
-4. Desde el `frontend`: `docker compose up -d --no-deps --build bl-frontend`
+4. Asegúrate que en el `frontend`, en el fichero `src/app/constants.ts` se ha puesto el valor `http://172.19.188.251:4200` a la variable `API_URL`.
+5. Desde el `frontend`: `docker compose up -d --no-deps --build bl-frontend`
 
 ## Backup de la base de datos
 Antes de nada para los contenedores: `docker compose stop`.
