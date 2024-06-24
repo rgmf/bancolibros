@@ -73,6 +73,14 @@ services:
     volumes:
       - ./frontend/:/app
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9090:8080
+    networks:
+      - bl-network
+
 networks:
   bl-network:
     driver: bridge
