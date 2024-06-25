@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COUNT=30
+COUNT=10
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
